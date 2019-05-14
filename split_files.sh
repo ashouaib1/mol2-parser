@@ -1,11 +1,14 @@
 #! /bin/bash
 
 mkdir mol2_files
-csplit ./downloads/ZINC_results.mol2 '/@<TRIPOS>MOLECULE/' '{*}'
+cd ./downloads/
 
-for f in xx*; do
-    zinc=$(cat $f | head -2 | tail -1)
-    mv -- "$f" mol2_files/"${zinc}.mol2"
+for i in ./*.mol2; do
+    csplit $i '/@<TRIPOS>MOLECULE/' '{*}'
+    for x in xx*; do
+        zinc=$(cat $x | head -2 | tail -1)
+        mv -- "$x" ../mol2_files/"${zinc}.mol2"
+    done
 done
 
 #rm -r downloads
